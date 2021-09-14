@@ -11,14 +11,15 @@
       <div class="container">
         <div class="columns">
           <div class="column is-4 is-offset-4">
-            <form>
+            <form @submit.prevent="submitForm">
               <div class="field">
                 <label for="password">Email</label>
                 <div class="control">
                   <input
-                    type="password"
+                    type="email"
                     class="input"
                     name="username"
+                    v-model="username"
                     placeholder="Email"
                   />
                 </div>
@@ -30,6 +31,7 @@
                     type="password"
                     class="input"
                     name="password"
+                    v-model="password"
                     placeholder="Password"
                   />
                 </div>
@@ -41,20 +43,28 @@
                     type="password"
                     class="input"
                     name="password"
+                    v-model="password2"
                     placeholder="Password"
                   />
                 </div>
               </div>
+
+              <div class="notification is-danger" v-if="errors.length">
+                <p v-for="error in errors" :key="error">
+                  {{ error }}
+                </p>
+              </div>
+
               <div class="field">
                 <div class="control">
                   <button class="button is-dark">Sign Up</button>
                 </div>
               </div>
             </form>
+            <hr />
 
-            <hr>
-
-            Or <router-link to="/log-in">click here</router-link> to log in!
+            Or <router-link :to="{ name: 'LogIn' }">click here</router-link> to
+            log in!
           </div>
         </div>
       </div>
@@ -62,5 +72,56 @@
   </div>
 </template>
 <script>
-export default {}
+import axios from "axios"
+export default {
+  name: "SignUp",
+  data() {
+    return {
+      username: "",
+      password: "",
+      password2: "",
+      errors: [],
+    }
+  },
+  methods: {
+    submitForm() {
+      this.errors = []
+
+      if (!this.username) {
+        this.errors.push("Username field is missing!")
+      } else if (!this.password) {
+        this.errors.push("Password field is missing!")
+      } else if (this.password !== this.password2) {
+        this.errors.push("Passwords don't match!")
+      } else if (!this.errors.length) {
+        const data = {
+          username: this.username,
+          password: this.password,
+        }
+
+        console.log(data)
+
+        axios
+          .post("/api/v1/users/", data)
+          .then((response) => {
+            console.log(response.data)
+
+            this.$router.push({ name: "LogIn" })
+          })
+          .catch((error) => {
+            if (error.response) {
+              for (const property in error.response.data) {
+                this.errors.push(
+                  `${property}: ${error.response.data[property]}`
+                )
+              }
+            } else if (error.message) {
+              this.errors.push("Something went wrong, please try again!")
+            }
+            console.log(error.response)
+          })
+      }
+    },
+  },
+}
 </script>

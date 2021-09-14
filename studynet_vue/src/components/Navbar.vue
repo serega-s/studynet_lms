@@ -22,12 +22,21 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <router-link :to="{ name: 'SignUp' }" class="button is-primary"
-              ><strong>Sign up</strong></router-link
-            >
-            <router-link :to="{ name: 'LogIn' }" class="button is-light"
-              ><strong>Log in</strong></router-link
-            >
+            <template v-if="$store.state.user.isAuthenticated">
+              <router-link
+                :to="{ name: 'MyAccount' }"
+                class="button is-secondary"
+                ><strong>My Account</strong></router-link
+              >
+            </template>
+            <template v-else>
+              <router-link :to="{ name: 'SignUp' }" class="button is-primary"
+                ><strong>Sign up</strong></router-link
+              >
+              <router-link :to="{ name: 'LogIn' }" class="button is-light"
+                ><strong>Log in</strong></router-link
+              >
+            </template>
           </div>
         </div>
       </div>
@@ -37,6 +46,6 @@
 
 <script>
 export default {
-  name: ''
+  name: "",
 }
 </script>
