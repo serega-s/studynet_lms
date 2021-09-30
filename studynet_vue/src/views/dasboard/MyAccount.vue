@@ -20,8 +20,13 @@ export default {
   name: "MyAccount",
   methods: {
     logout() {
+      axios
+        .post("/api/v1/token/logout/")
+        .then((response) => response)
+        .catch((error) => {
+          console.log(error.response)
+        })
       axios.defaults.headers.common["Authorization"]
-
       localStorage.removeItem("token")
 
       this.$store.commit("removeToken")

@@ -24,7 +24,11 @@
 
           <div class="column is-10">
             <div class="columns is-multiline">
-              <div class="column is-4" v-for="course in courses" :key="course.id">
+              <div
+                class="column is-4"
+                v-for="course in courses"
+                :key="course.id"
+              >
                 <div class="card">
                   <div class="card-image">
                     <figure class="image is-4by-3">
@@ -44,7 +48,10 @@
                     <div class="content">
                       <p>{{ course.short_description }}</p>
 
-                      <a>More</a>
+                      <router-link
+                        :to="{ name: 'Course', params: { slug: course.slug } }"
+                        >More</router-link
+                      >
                     </div>
                   </div>
                 </div>
@@ -97,5 +104,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

@@ -36,6 +36,13 @@
                   />
                 </div>
               </div>
+
+              <div class="notification is-danger" v-if="errors.length">
+                <p v-for="error in errors" :key="error">
+                  {{ error }}
+                </p>
+              </div>
+
               <div class="field">
                 <div class="control">
                   <button class="button is-dark">Sign In</button>

@@ -4,6 +4,7 @@ import Home from "../views/Home.vue"
 import Courses from "../views/Courses.vue"
 import SignUp from "../views/SignUp.vue"
 import LogIn from "../views/LogIn.vue"
+import Course from "../views/Course.vue"
 import MyAccount from '../views/dasboard/MyAccount.vue'
 
 const routes = [
@@ -39,7 +40,12 @@ const routes = [
     path: '/courses',
     name: 'Courses',
     component: Courses
-  }
+  },
+  {
+    path: '/courses/:slug',
+    name: 'Course',
+    component: Course
+  },
 ]
 
 const router = createRouter({

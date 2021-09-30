@@ -18,15 +18,14 @@
         <router-link :to="{ name: 'About' }" class="navbar-item"
           >About</router-link
         >
+        <router-link :to="{ name: 'Courses' }" class="navbar-item">Courses</router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
             <template v-if="$store.state.user.isAuthenticated">
-              <router-link
-                :to="{ name: 'MyAccount' }"
-                class="button is-secondary"
-                ><strong>My Account</strong></router-link
+              <router-link :to="{ name: 'MyAccount' }" class="button is-info"
+                >My Account</router-link
               >
             </template>
             <template v-else>
