@@ -29,32 +29,7 @@
                 v-for="course in courses"
                 :key="course.id"
               >
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by-3">
-                      <img
-                        src="https://bulma.io/images/placeholders/1280x960.png"
-                      />
-                    </figure>
-                  </div>
-
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-content">
-                        <p class="is-size-5">{{ course.title }}</p>
-                      </div>
-                    </div>
-
-                    <div class="content">
-                      <p>{{ course.short_description }}</p>
-
-                      <router-link
-                        :to="{ name: 'Course', params: { slug: course.slug } }"
-                        >More</router-link
-                      >
-                    </div>
-                  </div>
-                </div>
+                <CourseItem :course="course" />
               </div>
             </div>
 
@@ -85,7 +60,9 @@
 
 <script>
 import axios from "axios"
+import CourseItem from "../components/CourseItem.vue"
 export default {
+  components: { CourseItem },
   name: "Courses",
   data() {
     return {
@@ -97,6 +74,7 @@ export default {
       .get("/api/v1/courses/")
       .then((response) => {
         this.courses = response.data
+        console.log(response.data)
       })
       .catch((error) => {
         console.log(error.response)

@@ -70,6 +70,14 @@
                         />
                       </div>
                     </div>
+
+                    <div
+                      class="notification is-danger"
+                      v-for="error in errors"
+                      :key="error"
+                    >
+                      {{ error }}
+                    </div>
                     <div class="field">
                       <div class="control">
                         <button class="button is-link">Submit</button>
@@ -103,6 +111,7 @@ export default {
       course: {},
       lessons: {},
       activeLesson: null,
+      errors: [],
       comments: [],
       comment: {
         name: "",
@@ -129,20 +138,30 @@ export default {
         content: this.comment.content,
       }
 
-      axios
-        .post(
-          `/api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/`,
-          data
-        )
-        .then((response) => {
-          this.comment.name = ""
-          this.comment.content = ""
-          this.comments = []
-          this.getComments()
-        })
-        .catch((error) => {
-          console.log(error.response)
-        })
+      this.errors = []
+
+      if (!this.comment.name) {
+        this.errors.push("The name must be filled out.")
+      } else if (!this.comment.content) {
+        this.errors.push("The content be filled out.")
+      } else if (!this.errors.length) {
+        axios
+          .post(
+            `/api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/`,
+            data
+          )
+          .then((response) => {
+            this.comment.name = ""
+            this.comment.content = ""
+            // this.comments = []
+            // this.getComments()
+
+            this.comments.push(response.data)
+          })
+          .catch((error) => {
+            console.log(error.response)
+          })
+      }
     },
     setActiveLesson(lesson) {
       this.activeLesson = lesson
