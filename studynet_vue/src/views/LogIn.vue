@@ -71,10 +71,12 @@ export default {
       errors: [],
     }
   },
+  mounted() {
+    document.title = "Log In | StudyNet"
+  },
   methods: {
     submitForm() {
       axios.defaults.headers.common["Authorization"] = ""
-
       localStorage.removeItem("token")
 
       this.errors = []
@@ -89,22 +91,11 @@ export default {
           password: this.password,
         }
 
-        axios
-          .post("/api/v1/token/login/", data)
-          .then((response) => {
-            console.log(response.data)
-
-            const token = response.data.auth_token
-
-            this.$store.commit("setToken", token)
-
-            axios.defaults.headers.common["Authorization"] = "Token " + token
-
-            localStorage.setItem("token", token)
-
+        this.$store.dispatch("login", data).then(
+          () => {
             this.$router.push({ name: "MyAccount" })
-          })
-          .catch((error) => {
+          },
+          (error) => {
             if (error.response) {
               for (const property in error.response.data) {
                 this.errors.push(
@@ -114,8 +105,8 @@ export default {
             } else if (error.message) {
               this.errors.push("Something went wrong, please try again!")
             }
-            console.log(error.response)
-          })
+          }
+        )
       }
     },
   },

@@ -45,8 +45,8 @@
           </div>
 
           <div class="column is-12 has-text-centered">
-            <a href="#" class="button is-info is-size-3 mt-6 mb-6"
-              >Click to get started</a
+            <router-link to="/sign-up" class="button is-info is-size-3 mt-6 mb-6"
+              >Click to get started</router-link
             >
           </div>
 
@@ -74,6 +74,7 @@ export default {
     }
   },
   mounted() {
+    document.title = 'Welcome | StudyNet'
     axios
       .get("/api/v1/courses/get-frontpage-courses/")
       .then((response) => {

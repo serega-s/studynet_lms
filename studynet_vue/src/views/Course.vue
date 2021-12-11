@@ -20,8 +20,6 @@
           </div>
 
           <div class="column is-10">
-            <!-- <h2>Cours</h2> -->
-
             <p>
               <template v-if="$store.state.user.isAuthenticated">
                 <template v-if="activeLesson">
@@ -31,7 +29,7 @@
                   <hr />
 
                   <article
-                    class="media"
+                    class="media box"
                     v-for="comment in comments"
                     :key="comment.id"
                   >
@@ -119,17 +117,17 @@ export default {
       },
     }
   },
-  mounted() {
+  async mounted() {
     const slug = this.$route.params.slug
-    axios
-      .get(`/api/v1/courses/${slug}/`)
-      .then((response) => {
-        this.course = response.data.course
-        this.lessons = response.data.lessons
-      })
-      .catch((error) => {
-        console.log(error.response)
-      })
+
+    await axios.get(`/api/v1/courses/${slug}/`).then((response) => {
+      this.course = response.data.course
+      this.lessons = response.data.lessons
+      console.log(response.data)
+    })
+    document.title = this.course.title
+      ? this.course.title
+      : "Restricted Access" + " | StudyNet"
   },
   methods: {
     submitComment() {

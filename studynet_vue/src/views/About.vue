@@ -13,3 +13,12 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "About",
+  mounted() {
+    document.title = 'About | StudyNet'
+  }
+}
+</script>

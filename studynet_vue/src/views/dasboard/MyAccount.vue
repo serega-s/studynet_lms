@@ -18,20 +18,19 @@
 import axios from "axios"
 export default {
   name: "MyAccount",
+  mounted() {
+    document.title = "My Account | StudyNet"
+  },
   methods: {
     logout() {
-      axios
-        .post("/api/v1/token/logout/")
-        .then((response) => response)
-        .catch((error) => {
+      this.$store.dispatch("logout").then(
+        () => {
+          this.$router.push({ name: "LogIn" })
+        },
+        (error) => {
           console.log(error.response)
-        })
-      axios.defaults.headers.common["Authorization"]
-      localStorage.removeItem("token")
-
-      this.$store.commit("removeToken")
-
-      this.$router.push({ name: "LogIn" })
+        }
+      )
     },
   },
 }

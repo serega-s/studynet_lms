@@ -13,6 +13,9 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+
 
 class Course(models.Model):
     categories = ManyToManyField(Category)

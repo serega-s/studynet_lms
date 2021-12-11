@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from .models import Comment, Course, Lesson
+from .models import Category, Comment, Course, Lesson
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'slug']
 
 
 class CourseListSerializer(serializers.ModelSerializer):

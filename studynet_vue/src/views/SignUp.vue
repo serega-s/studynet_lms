@@ -83,6 +83,9 @@ export default {
       errors: [],
     }
   },
+  mounted() {
+    document.title = "Sign Up | StudyNet"
+  },
   methods: {
     submitForm() {
       this.errors = []
@@ -99,16 +102,11 @@ export default {
           password: this.password,
         }
 
-        console.log(data)
-
-        axios
-          .post("/api/v1/users/", data)
-          .then((response) => {
-            console.log(response.data)
-
+        this.$store.dispatch("register", data).then(
+          () => {
             this.$router.push({ name: "LogIn" })
-          })
-          .catch((error) => {
+          },
+          (error) => {
             if (error.response) {
               for (const property in error.response.data) {
                 this.errors.push(
@@ -118,8 +116,8 @@ export default {
             } else if (error.message) {
               this.errors.push("Something went wrong, please try again!")
             }
-            console.log(error.response)
-          })
+          }
+        )
       }
     },
   },

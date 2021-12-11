@@ -14,10 +14,20 @@
               <p class="menu-label">Categories</p>
 
               <ul class="menu-list">
-                <li><a class="is-active">All courses</a></li>
-                <li><a>Programming</a></li>
-                <li><a>Design</a></li>
-                <li><a>UX</a></li>
+                <li>
+                  <a
+                    :class="{ 'is-active': !activeCategory }"
+                    @click="setActiveCategory(null)"
+                    >All courses</a
+                  >
+                </li>
+                <li
+                  v-for="category in categories"
+                  :key="category.id"
+                  @click="setActiveCategory(category)"
+                >
+                  <a>{{ category.title }}</a>
+                </li>
               </ul>
             </aside>
           </div>
@@ -67,18 +77,46 @@ export default {
   data() {
     return {
       courses: [],
+      categories: [],
+      activeCategory: null,
     }
   },
-  mounted() {
-    axios
-      .get("/api/v1/courses/")
+  async mounted() {
+    document.title = 'Courses | StudyNet'
+    
+    await axios
+      .get("/api/v1/courses/get-categories/")
       .then((response) => {
-        this.courses = response.data
-        console.log(response.data)
+        this.categories = response.data
       })
       .catch((error) => {
         console.log(error.response)
       })
+
+    this.getCourses()
+
+    
+  },
+  methods: {
+    setActiveCategory(category) {
+      this.activeCategory = category
+      this.getCourses()
+    },
+    getCourses() {
+      let url = "/api/v1/courses/"
+
+      if (this.activeCategory) {
+        url += "?category_id=" + this.activeCategory.id
+      }
+      axios
+        .get(url)
+        .then((response) => {
+          this.courses = response.data
+        })
+        .catch((error) => {
+          console.log(error.response)
+        })
+    },
   },
 }
 </script>
