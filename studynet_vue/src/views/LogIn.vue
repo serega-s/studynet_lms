@@ -96,14 +96,12 @@ export default {
             this.$router.push({ name: "MyAccount" })
           },
           (error) => {
-            if (error.response) {
+            if (error.response.data.non_field_errors) {
               for (const property in error.response.data) {
-                this.errors.push(
-                  `${property}: ${error.response.data[property]}`
-                )
+                this.errors.push(`${error.response.data[property]}`)
               }
-            } else if (error.message) {
-              this.errors.push("Something went wrong, please try again!")
+            } else {
+              this.errors.push("Unable to sign up with bad credentials.")
             }
           }
         )

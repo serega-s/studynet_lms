@@ -151,8 +151,6 @@ export default {
           .then((response) => {
             this.comment.name = ""
             this.comment.content = ""
-            // this.comments = []
-            // this.getComments()
 
             this.comments.push(response.data)
           })

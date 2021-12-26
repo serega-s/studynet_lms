@@ -9,6 +9,17 @@
       <router-link class="navbar-item is-size-4" :to="{ name: 'Home' }"
         >Study Net</router-link
       >
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbar-item"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
     <div class="navbar-menu" id="navbar-item">
       <div class="navbar-start">
@@ -18,7 +29,9 @@
         <router-link :to="{ name: 'About' }" class="navbar-item"
           >About</router-link
         >
-        <router-link :to="{ name: 'Courses' }" class="navbar-item">Courses</router-link>
+        <router-link :to="{ name: 'Courses' }" class="navbar-item"
+          >Courses</router-link
+        >
       </div>
       <div class="navbar-end">
         <div class="navbar-item">

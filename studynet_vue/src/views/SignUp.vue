@@ -92,8 +92,8 @@ export default {
 
       if (!this.username) {
         this.errors.push("Username field is missing!")
-      } else if (!this.password) {
-        this.errors.push("Password field is missing!")
+      } else if (!this.password || this.password.length < 8) {
+        this.errors.push("Password must contain at least 8 characters")
       } else if (this.password !== this.password2) {
         this.errors.push("Passwords don't match!")
       } else if (!this.errors.length) {
@@ -107,14 +107,14 @@ export default {
             this.$router.push({ name: "LogIn" })
           },
           (error) => {
-            if (error.response) {
+            console.log(error.response)
+
+            if (error.response.data) {
               for (const property in error.response.data) {
-                this.errors.push(
-                  `${property}: ${error.response.data[property]}`
-                )
+                this.errors.push(`${error.response.data[property]}`)
               }
-            } else if (error.message) {
-              this.errors.push("Something went wrong, please try again!")
+            } else {
+              this.errors.push("Unable to sign up with bad credentials.")
             }
           }
         )
