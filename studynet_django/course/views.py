@@ -6,8 +6,15 @@ from rest_framework.response import Response
 from .models import Category, Comment, Course, Lesson
 from .serializers import (CategorySerializer, CommentSerializer,
                           CourseDetailSerializer, CourseListSerializer,
-                          LessonListSerializer)
+                          LessonListSerializer, QuizSerializer)
 
+@api_view(['GET'])
+def get_quiz(request, course_slug, lesson_slug):
+    lesson = Lesson.objects.get(slug=lesson_slug)
+    quiz = lesson.quizzes.first()
+    serializer = QuizSerializer(quiz)
+    
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @authentication_classes([])

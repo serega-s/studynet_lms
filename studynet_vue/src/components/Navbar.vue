@@ -58,6 +58,6 @@
 
 <script>
 export default {
-  name: "",
+  name: "Navbar",
 }
 </script>

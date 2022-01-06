@@ -101,7 +101,7 @@ export default {
                 this.errors.push(`${error.response.data[property]}`)
               }
             } else {
-              this.errors.push("Unable to sign up with bad credentials.")
+              this.errors.push("Unable to sign in with bad credentials.")
             }
           }
         )

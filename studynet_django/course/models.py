@@ -66,7 +66,7 @@ class Lesson(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.title
+        return f'{self.course.title} - "{self.title}"'
 
 
 class Comment(models.Model):
@@ -82,3 +82,18 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.content
+
+
+class Quiz(models.Model):
+    lesson = models.ForeignKey(Lesson, related_name='quizzes', on_delete=models.CASCADE)
+    question = models.CharField(max_length=255, null=True)
+    answer = models.CharField(max_length=255, null=True)
+    op1 = models.CharField(max_length=255, null=True)
+    op2 = models.CharField(max_length=255, null=True)
+    op3 = models.CharField(max_length=255, null=True)
+
+    def __str__(self) -> str:
+        return f'{self.lesson.course.title} - {self.lesson.title}: {self.question}'
+
+    class Meta:
+        verbose_name_plural = 'Quizzes'
