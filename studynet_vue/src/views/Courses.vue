@@ -69,8 +69,8 @@
 </template>
 
 <script>
-import axios from "axios"
 import CourseItem from "../components/CourseItem.vue"
+import CourseService from '../services/course.service'
 export default {
   components: { CourseItem },
   name: "Courses",
@@ -84,13 +84,9 @@ export default {
   async mounted() {
     document.title = 'Courses | StudyNet'
     
-    await axios
-      .get("/api/v1/courses/get-categories/")
+    await CourseService.getCategories()
       .then((response) => {
         this.categories = response.data
-      })
-      .catch((error) => {
-        console.log(error.response)
       })
 
     this.getCourses()
@@ -108,13 +104,9 @@ export default {
       if (this.activeCategory) {
         url += "?category_id=" + this.activeCategory.id
       }
-      axios
-        .get(url)
+      CourseService.getCourses(url)
         .then((response) => {
           this.courses = response.data
-        })
-        .catch((error) => {
-          console.log(error.response)
         })
     },
   },

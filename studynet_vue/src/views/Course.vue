@@ -127,6 +127,7 @@
                       >
                         {{ error }}
                       </div>
+
                       <div class="field">
                         <div class="control">
                           <button class="button is-link">Submit</button>
@@ -153,7 +154,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import CourseService from '../services/course.service'
 export default {
   name: "Course",
   data() {
@@ -177,10 +178,10 @@ export default {
   async mounted() {
     const slug = this.$route.params.slug
 
-    await axios.get(`/api/v1/courses/${slug}/`).then((response) => {
+    await CourseService.getCoursesLessonsData(slug).then((response) => {
       this.course = response.data.course
       this.lessons = response.data.lessons
-      console.log(response.data)
+      
     })
     document.title = this.course.title
       ? this.course.title
@@ -200,11 +201,7 @@ export default {
       } else if (!this.comment.content) {
         this.errors.push("The content be filled out.")
       } else if (!this.errors.length) {
-        axios
-          .post(
-            `/api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/`,
-            data
-          )
+        CourseService.submitComment(this.course.slug, this.activeLesson.slug, data)
           .then((response) => {
             this.comment.name = ""
             this.comment.content = ""
@@ -225,19 +222,13 @@ export default {
       }
     },
     getQuiz() {
-      axios
-        .get(
-          `/api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/get-quiz/`
-        )
+      CourseService.getQuiz(this.course.slug, this.activeLesson.slug)
         .then((response) => {
           this.quiz = response.data
         })
     },
     getComments() {
-      axios
-        .get(
-          `/api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/get-comments/`
-        )
+      CourseService.getComents(this.course.slug, this.activeLesson.slug)
         .then((response) => {
           this.comments = response.data
         })

@@ -62,9 +62,9 @@
 </template>
 
 <script>
-import axios from "axios"
-
 import CourseItem from "../components/CourseItem.vue"
+import CourseService from '../services/course.service'
+
 export default {
   components: { CourseItem },
   name: "Home",
@@ -75,8 +75,7 @@ export default {
   },
   mounted() {
     document.title = 'Welcome | StudyNet'
-    axios
-      .get("/api/v1/courses/get-frontpage-courses/")
+    CourseService.getFrontpageCourses()
       .then((response) => {
         this.courses = response.data
       })
