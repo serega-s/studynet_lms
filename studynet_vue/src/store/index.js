@@ -3,6 +3,7 @@ import AuthService from "../services/auth.service"
 
 export default createStore({
   state: {
+    isLoading: false,
     user: {
       token: "",
       isAuthenticated: false,
@@ -25,6 +26,9 @@ export default createStore({
     removeToken(state) {
       state.user.token = ""
       state.user.isAuthenticated = false
+    },
+    setIsLoading(state, status) {
+      state.isLoading = status
     },
   },
   actions: {

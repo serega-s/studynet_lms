@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <Loader />
     <router-view />
     <Footer />
   </div>
@@ -8,6 +9,7 @@
 
 <script>
 import Footer from "@/components/Footer.vue"
+import Loader from "@/components/Loader.vue"
 import Navbar from "@/components/Navbar.vue"
 import axios from "axios"
 
@@ -20,12 +22,13 @@ export default {
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Token " + token
     } else {
-      axios.defaults.headers.common["Authorization"] = ""
+      delete axios.defaults.headers.common["Authorization"]
     }
   },
   components: {
     Navbar,
     Footer,
+    Loader,
   },
 }
 </script>

@@ -75,7 +75,9 @@ export default {
     document.title = "Log In | StudyNet"
   },
   methods: {
-    submitForm() {
+    async submitForm() {
+      this.$store.commit("setIsLoading", true)
+
       axios.defaults.headers.common["Authorization"] = ""
       localStorage.removeItem("token")
 
@@ -106,6 +108,7 @@ export default {
           }
         )
       }
+      this.$store.commit("setIsLoading", false)
     },
   },
 }

@@ -70,7 +70,7 @@
 
 <script>
 import CourseItem from "../components/CourseItem.vue"
-import CourseService from '../services/course.service'
+import CourseService from "../services/course.service"
 export default {
   components: { CourseItem },
   name: "Courses",
@@ -81,33 +81,40 @@ export default {
       activeCategory: null,
     }
   },
-  async mounted() {
-    document.title = 'Courses | StudyNet'
-    
-    await CourseService.getCategories()
-      .then((response) => {
-        this.categories = response.data
-      })
-
+  mounted() {
+    document.title = "Courses | StudyNet"
+    this.getCategories()
     this.getCourses()
-
-    
   },
   methods: {
+    async getCategories() {
+      this.$store.commit("setIsLoading", true)
+      try {
+        const response = await CourseService.getCategories()
+        this.categories = response.data
+      } catch (e) {
+        console.error(e)
+      }
+      this.$store.commit("setIsLoading", false)
+    },
     setActiveCategory(category) {
       this.activeCategory = category
       this.getCourses()
     },
-    getCourses() {
+    async getCourses() {
+      this.$store.commit("setIsLoading", true)
       let url = "/api/v1/courses/"
 
       if (this.activeCategory) {
         url += "?category_id=" + this.activeCategory.id
       }
-      CourseService.getCourses(url)
-        .then((response) => {
-          this.courses = response.data
-        })
+      try {
+        const response = await CourseService.getCourses(url)
+        this.courses = response.data
+      } catch (e) {
+        console.error(e)
+      }
+      this.$store.commit("setIsLoading", false)
     },
   },
 }

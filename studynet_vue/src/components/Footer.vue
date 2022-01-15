@@ -1,11 +1,17 @@
 <template>
   <footer class="footer">
-    <p class="has-text-centered">Copyright (C) 2021</p>
+    <p class="has-text-centered">Copyright (C) {{ getCurrentYear() }}</p>
   </footer>
 </template>
 
 <script>
 export default {
-  name: 'Footer'
+  name: "Footer",
+  methods: {
+    getCurrentYear() {
+      const date = new Date()
+      return date.getUTCFullYear()
+    },
+  },
 }
 </script>

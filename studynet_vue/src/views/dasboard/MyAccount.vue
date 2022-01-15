@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import axios from "axios"
 export default {
   name: "MyAccount",
   mounted() {
@@ -23,6 +22,7 @@ export default {
   },
   methods: {
     logout() {
+      this.$store.commit("setIsLoading", true)
       this.$store.dispatch("logout").then(
         () => {
           this.$router.push({ name: "LogIn" })
@@ -31,6 +31,7 @@ export default {
           console.log(error.response)
         }
       )
+      this.$store.commit("setIsLoading", false)
     },
   },
 }

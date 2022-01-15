@@ -87,7 +87,9 @@ export default {
     document.title = "Sign Up | StudyNet"
   },
   methods: {
-    submitForm() {
+    async submitForm() {
+      this.$store.commit("setIsLoading", true)
+
       this.errors = []
 
       if (!this.username) {
@@ -119,6 +121,7 @@ export default {
           }
         )
       }
+      this.$store.commit("setIsLoading", false)
     },
   },
 }

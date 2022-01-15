@@ -45,7 +45,9 @@
           </div>
 
           <div class="column is-12 has-text-centered">
-            <router-link to="/sign-up" class="button is-info is-size-3 mt-6 mb-6"
+            <router-link
+              to="/sign-up"
+              class="button is-info is-size-3 mt-6 mb-6"
               >Click to get started</router-link
             >
           </div>
@@ -63,7 +65,7 @@
 
 <script>
 import CourseItem from "../components/CourseItem.vue"
-import CourseService from '../services/course.service'
+import CourseService from "../services/course.service"
 
 export default {
   components: { CourseItem },
@@ -74,14 +76,20 @@ export default {
     }
   },
   mounted() {
-    document.title = 'Welcome | StudyNet'
-    CourseService.getFrontpageCourses()
-      .then((response) => {
+    this.getFrontpageCourses()
+    document.title = "Welcome | StudyNet"
+  },
+  methods: {
+    async getFrontpageCourses() {
+      this.$store.commit("setIsLoading", true)
+      try {
+        const response = await CourseService.getFrontpageCourses()
         this.courses = response.data
-      })
-      .catch((error) => {
-        console.log(error.response)
-      })
+      } catch (e) {
+        console.error(e)
+      }
+      this.$store.commit("setIsLoading", false)
+    },
   },
 }
 </script>
