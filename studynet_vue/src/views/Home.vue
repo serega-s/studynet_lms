@@ -40,7 +40,7 @@
 
               <h2 class="is-size-2 mt-4 mb-4">Study from your home</h2>
 
-              <p>You can get a additional education at home</p>
+              <p>You can get a additional education from your home</p>
             </div>
           </div>
 
