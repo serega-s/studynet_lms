@@ -86,12 +86,10 @@
                     >
                       <div class="media-content">
                         <div class="content">
-                          <!-- <p> -->
                           <strong>{{ comment.name }}</strong> ||
                           {{ comment.created_at }}
                           <br />
                           <blockquote>{{ comment.content }}</blockquote>
-                          <!-- </p> -->
                         </div>
                       </div>
                     </article>

@@ -16,9 +16,9 @@
                 ><i class="far fa-clock"></i
               ></span>
 
-              <h2 class="is-size-2 mt-4 mb-4">Study at your own place</h2>
+              <h2 class="is-size-2 mt-4 mb-4">Study at your convenience</h2>
 
-              <p>This is just some random placeholder</p>
+              <p>You can study at convenient time for you</p>
             </div>
           </div>
           <div class="column is-4">
@@ -29,7 +29,7 @@
 
               <h2 class="is-size-2 mt-4 mb-4">Study with others</h2>
 
-              <p>This is just some random placeholder</p>
+              <p>Study with others and write the comments about courses</p>
             </div>
           </div>
           <div class="column is-4">
@@ -40,7 +40,7 @@
 
               <h2 class="is-size-2 mt-4 mb-4">Study from your home</h2>
 
-              <p>This is just some random placeholder</p>
+              <p>You can get a additional education at home</p>
             </div>
           </div>
 
