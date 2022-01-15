@@ -2,16 +2,33 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields.related import ManyToManyField
+from django.utils.text import slugify
 
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = None
+        if self.slug == None:
+            slug = slugify(self.title)
+
+            has_slug = Category.objects.filter(slug=slug).exists()
+            count = 1
+
+            while has_slug:
+                count += 1
+                slug = slugify(self.title) + '-' + str(count)
+                has_slug = Category.objects.filter(slug=slug).exists()
+
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -20,7 +37,7 @@ class Category(models.Model):
 class Course(models.Model):
     categories = ManyToManyField(Category)
     title = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -34,6 +51,22 @@ class Course(models.Model):
             return settings.WEBSITE_URL + self.image.url
         else:
             return ''
+
+    def save(self, *args, **kwargs):
+        self.slug = None
+        if self.slug == None:
+            slug = slugify(self.title)
+
+            has_slug = Course.objects.filter(slug=slug).exists()
+            count = 1
+
+            while has_slug:
+                count += 1
+                slug = slugify(self.title) + '-' + str(count)
+                has_slug = Course.objects.filter(slug=slug).exists()
+
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 class Lesson(models.Model):
@@ -56,7 +89,7 @@ class Lesson(models.Model):
     course = models.ForeignKey(
         Course, related_name='lessons', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
     status = models.CharField(
@@ -67,6 +100,22 @@ class Lesson(models.Model):
 
     def __str__(self) -> str:
         return f'{self.course.title} - "{self.title}"'
+
+    def save(self, *args, **kwargs):
+        self.slug = None
+        if self.slug == None:
+            slug = slugify(self.title)
+
+            has_slug = Lesson.objects.filter(slug=slug).exists()
+            count = 1
+
+            while has_slug:
+                count += 1
+                slug = slugify(self.title) + '-' + str(count)
+                has_slug = Lesson.objects.filter(slug=slug).exists()
+
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
@@ -85,7 +134,8 @@ class Comment(models.Model):
 
 
 class Quiz(models.Model):
-    lesson = models.ForeignKey(Lesson, related_name='quizzes', on_delete=models.CASCADE)
+    lesson = models.ForeignKey(
+        Lesson, related_name='quizzes', on_delete=models.CASCADE)
     question = models.CharField(max_length=255, null=True)
     answer = models.CharField(max_length=255, null=True)
     op1 = models.CharField(max_length=255, null=True)
