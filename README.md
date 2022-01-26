@@ -7,10 +7,7 @@
 ![avatar](studynet_imgs/studynet-5.png)
 ![avatar](studynet_imgs/studynet-6.png)
 ![avatar](studynet_imgs/studynet-7.png)
-![avatar](studynet_imgs/studynet-8.png)
 ![avatar](studynet_imgs/studynet-9.png)
-
-and some pages...
 
 ### For Vue
 
