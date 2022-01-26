@@ -1,4 +1,12 @@
-# StudyNet 
+# StudyNet
+
+Not big, simple LMS with basic functionality such as:
+
+- Auth
+- Quizzes
+- Access to course
+- Comment to couese
+- Quiz in course
 
 ![avatar](studynet_imgs/studynet-1.png)
 ![avatar](studynet_imgs/studynet-2.png)
