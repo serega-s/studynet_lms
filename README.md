@@ -1,4 +1,4 @@
-# GanarCRM
+# StudyNet 
 
 ![avatar](studynet_imgs/studynet-1.png)
 ![avatar](studynet_imgs/studynet-2.png)
