@@ -25,7 +25,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 class LessonListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['id', 'title', 'slug', 'long_description', 'lesson_type']
+        fields = ['id', 'title', 'slug', 'long_description', 'lesson_type', 'youtube_id']
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -34,11 +34,10 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'content', 'created_at']
 
 
-
 class QuizSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz
-        fields  = [
+        fields = [
             'id',
             'lesson_id',
             'question',

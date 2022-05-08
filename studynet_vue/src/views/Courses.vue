@@ -103,7 +103,7 @@ export default {
     },
     async getCourses() {
       this.$store.commit("setIsLoading", true)
-      let url = "/api/v1/courses/"
+      let url = "courses/"
 
       if (this.activeCategory) {
         url += "?category_id=" + this.activeCategory.id

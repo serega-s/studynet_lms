@@ -2,7 +2,7 @@ import axios from "axios"
 
 class AuthService {
   async login(user) {
-    const response = await axios.post("/api/v1/token/login/", {
+    const response = await axios.post("token/login/", {
       username: user.username,
       password: user.password,
     })
@@ -13,13 +13,15 @@ class AuthService {
       localStorage.setItem("token", token)
     }
   }
+
   async logout() {
-    const response = await axios.post("/api/v1/token/logout/")
+    const response = await axios.post("token/logout/")
     axios.defaults.headers.common["Authorization"]
     localStorage.removeItem("token")
   }
-  register(user) {
-    return axios.post("/api/v1/users/", {
+
+  async register(user) {
+    return axios.post("users/", {
       username: user.username,
       password: user.password,
     })

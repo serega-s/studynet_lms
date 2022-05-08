@@ -80,22 +80,28 @@ class Lesson(models.Model):
 
     ARTICLE = 'article'
     QUIZ = 'quiz'
+    VIDEO = 'video'
 
     CHOICES_LESSON_TYPE = (
         (ARTICLE, 'Article'),
-        (QUIZ, 'Quiz')
+        (QUIZ, 'Quiz'),
+        (VIDEO, 'Video')
     )
 
     course = models.ForeignKey(
-        Course, related_name='lessons', on_delete=models.CASCADE)
+        Course, related_name='lessons', on_delete=models.CASCADE
+    )
     title = models.CharField(max_length=255)
     slug = models.SlugField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
     status = models.CharField(
-        max_length=20, choices=CHOICES_STATUS, default=PUBLISHED)
+        max_length=20, choices=CHOICES_STATUS, default=PUBLISHED
+    )
     lesson_type = models.CharField(
-        max_length=20, choices=CHOICES_LESSON_TYPE, default=ARTICLE)
+        max_length=20, choices=CHOICES_LESSON_TYPE, default=ARTICLE
+    )
+    youtube_id = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
@@ -120,12 +126,15 @@ class Lesson(models.Model):
 
 class Comment(models.Model):
     course = models.ForeignKey(
-        Course, related_name='comments', on_delete=models.CASCADE)
+        Course, related_name='comments', on_delete=models.CASCADE
+    )
     lesson = models.ForeignKey(
-        Lesson, related_name='comments', on_delete=models.CASCADE)
+        Lesson, related_name='comments', on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=255)
     created_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='comments')
+        User, on_delete=models.CASCADE, related_name='comments'
+    )
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -135,7 +144,8 @@ class Comment(models.Model):
 
 class Quiz(models.Model):
     lesson = models.ForeignKey(
-        Lesson, related_name='quizzes', on_delete=models.CASCADE)
+        Lesson, related_name='quizzes', on_delete=models.CASCADE
+    )
     question = models.CharField(max_length=255, null=True)
     answer = models.CharField(max_length=255, null=True)
     op1 = models.CharField(max_length=255, null=True)

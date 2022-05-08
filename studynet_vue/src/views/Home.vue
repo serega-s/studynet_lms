@@ -76,14 +76,14 @@ export default {
     }
   },
   mounted() {
-    this.getFrontpageCourses()
+    this.getCourses()
     document.title = "Welcome | StudyNet"
   },
   methods: {
-    async getFrontpageCourses() {
+    async getCourses() {
       this.$store.commit("setIsLoading", true)
       try {
-        const response = await CourseService.getFrontpageCourses()
+        const response = await CourseService.getCourses('courses/')
         this.courses = response.data
       } catch (e) {
         console.error(e)
