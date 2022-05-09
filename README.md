@@ -1,20 +1,28 @@
 # StudyNet
 
-Not big, simple LMS with basic functionality such as:
+A small LMS with the following functionality:
 
 - Auth
 - Quizzes
 - Access to course
-- Comment to couese
+- Comment to course
 - Quiz in course
+- Embedding videos to lesson
+- Tracking progress
 
 ![avatar](studynet_imgs/studynet-1.png)
-![avatar](studynet_imgs/studynet-2.png)
-![avatar](studynet_imgs/studynet-3.png)
-![avatar](studynet_imgs/studynet-4.png)
-![avatar](studynet_imgs/studynet-5.png)
-![avatar](studynet_imgs/studynet-6.png)
-![avatar](studynet_imgs/studynet-7.png)
+
+[comment]: <> (![avatar]&#40;studynet_imgs/studynet-2.png&#41;)
+
+[comment]: <> (![avatar]&#40;studynet_imgs/studynet-3.png&#41;)
+
+[comment]: <> (![avatar]&#40;studynet_imgs/studynet-4.png&#41;)
+
+[comment]: <> (![avatar]&#40;studynet_imgs/studynet-5.png&#41;)
+
+[comment]: <> (![avatar]&#40;studynet_imgs/studynet-6.png&#41;)
+
+[comment]: <> (![avatar]&#40;studynet_imgs/studynet-7.png&#41;)
 
 ### For Vue
 
