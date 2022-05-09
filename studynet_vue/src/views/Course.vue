@@ -23,6 +23,11 @@
             <template v-if="$store.state.user.isAuthenticated">
               <div v-if="activeLesson">
                 <h2>{{ activeLesson.title }}</h2>
+
+                <span class="tag is-warning" v-if="activity.status === 'started'" @click="markAsDone">Started (mark as done)</span>
+                <span class="tag is-success" v-else>Done</span>
+
+                <hr>
                 {{ activeLesson.long_description }}
 
                 <hr/>
@@ -57,6 +62,7 @@
 
 <script>
 import CourseService from "../services/course.service"
+import ActivityService from "../services/activity.service"
 import CourseComment from "@/components/CourseComment"
 import AddComment from "@/components/AddComment"
 import Quiz from "@/components/Quiz"
@@ -73,6 +79,7 @@ export default {
       activeLesson: null,
       errors: [],
       comments: [],
+      activity: {}
     }
   },
   mounted() {
@@ -107,6 +114,28 @@ export default {
       } else {
         this.getComments()
       }
+
+      this.trackStarted()
+    },
+    async trackStarted() {
+      this.$store.commit("setIsLoading", true)
+      try {
+        const response = await ActivityService.trackStarted(this.$route.params.slug, this.activeLesson.slug)
+        this.activity = response.data
+      } catch (e) {
+        console.log(e)
+      }
+      this.$store.commit("setIsLoading", false)
+    },
+    async markAsDone() {
+      this.$store.commit("setIsLoading", true)
+      try {
+        const response = await ActivityService.markAsDone(this.$route.params.slug, this.activeLesson.slug)
+        this.activity = response.data
+      } catch (e) {
+        console.log(e)
+      }
+      this.$store.commit("setIsLoading", false)
     },
     async getQuiz() {
       this.$store.commit("setIsLoading", true)

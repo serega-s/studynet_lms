@@ -22,10 +22,22 @@ class CourseDetailSerializer(serializers.ModelSerializer):
                   'short_description', 'long_description']
 
 
+class CourseActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['id', 'slug']
+
+
 class LessonListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['id', 'title', 'slug', 'long_description', 'lesson_type', 'youtube_id']
+
+
+class LessonActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['id', 'slug']
 
 
 class CommentSerializer(serializers.ModelSerializer):

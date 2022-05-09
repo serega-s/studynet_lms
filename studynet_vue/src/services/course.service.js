@@ -9,21 +9,21 @@ class CourseService {
     return await axios.get(url)
   }
 
-  async getComments(course_slug, activeLesson_slug) {
+  async getComments(courseSlug, activeLessonSlug) {
     return await axios.get(
-        `courses/${course_slug}/${activeLesson_slug}/get-comments/`
+        `courses/${courseSlug}/${activeLessonSlug}/get-comments/`
     )
   }
 
-  async getQuiz(course_slug, activeLesson_slug) {
+  async getQuiz(courseSlug, activeLessonSlug) {
     return await axios.get(
-        `courses/${course_slug}/${activeLesson_slug}/get-quiz/`
+        `courses/${courseSlug}/${activeLessonSlug}/get-quiz/`
     )
   }
 
-  async submitComment(course_slug, activeLesson_slug, data) {
+  async submitComment(courseSlug, activeLessonSlug, data) {
     return await axios.post(
-        `courses/${course_slug}/${activeLesson_slug}/`,
+        `courses/${courseSlug}/${activeLessonSlug}/`,
         data
     )
   }
