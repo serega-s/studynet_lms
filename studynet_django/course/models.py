@@ -16,7 +16,7 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = None
-        if self.slug == None:
+        if self.slug is None:
             slug = slugify(self.title)
 
             has_slug = Category.objects.filter(slug=slug).exists()
@@ -24,7 +24,7 @@ class Category(models.Model):
 
             while has_slug:
                 count += 1
-                slug = slugify(self.title) + '-' + str(count)
+                slug = f'{slugify(self.title)}-{count}'
                 has_slug = Category.objects.filter(slug=slug).exists()
 
             self.slug = slug
@@ -40,6 +40,8 @@ class Course(models.Model):
     slug = models.SlugField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='courses')
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='uploads', blank=True, null=True)
 
@@ -47,14 +49,11 @@ class Course(models.Model):
         return self.title
 
     def get_image(self):
-        if self.image:
-            return settings.WEBSITE_URL + self.image.url
-        else:
-            return ''
+        return settings.WEBSITE_URL + self.image.url if self.image else ''
 
     def save(self, *args, **kwargs):
         self.slug = None
-        if self.slug == None:
+        if self.slug is None:
             slug = slugify(self.title)
 
             has_slug = Course.objects.filter(slug=slug).exists()
@@ -62,7 +61,7 @@ class Course(models.Model):
 
             while has_slug:
                 count += 1
-                slug = slugify(self.title) + '-' + str(count)
+                slug = f'{slugify(self.title)}-{count}'
                 has_slug = Course.objects.filter(slug=slug).exists()
 
             self.slug = slug
@@ -109,7 +108,7 @@ class Lesson(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = None
-        if self.slug == None:
+        if self.slug is None:
             slug = slugify(self.title)
 
             has_slug = Lesson.objects.filter(slug=slug).exists()
@@ -117,7 +116,7 @@ class Lesson(models.Model):
 
             while has_slug:
                 count += 1
-                slug = slugify(self.title) + '-' + str(count)
+                slug = f'{slugify(self.title)}-{count}'
                 has_slug = Lesson.objects.filter(slug=slug).exists()
 
             self.slug = slug
