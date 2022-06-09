@@ -12,17 +12,6 @@ A small LMS with the following functionality:
 
 ![avatar](studynet_imgs/studynet-1.png)
 
-[comment]: <> (![avatar]&#40;studynet_imgs/studynet-2.png&#41;)
-
-[comment]: <> (![avatar]&#40;studynet_imgs/studynet-3.png&#41;)
-
-[comment]: <> (![avatar]&#40;studynet_imgs/studynet-4.png&#41;)
-
-[comment]: <> (![avatar]&#40;studynet_imgs/studynet-5.png&#41;)
-
-[comment]: <> (![avatar]&#40;studynet_imgs/studynet-6.png&#41;)
-
-[comment]: <> (![avatar]&#40;studynet_imgs/studynet-7.png&#41;)
 
 ### For Vue
 
