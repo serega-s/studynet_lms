@@ -3,6 +3,14 @@
     <div class="hero is-info">
       <div class="hero-body has-text-centered">
         <h1 class="title">{{ course.title }}</h1>
+
+        <router-link
+          class="subtitle"
+          :to="{ name: 'Author', params: { id: course.created_by.id } }"
+        >
+          By {{ course.created_by.first_name }}
+          {{ course.created_by.last_name }}
+        </router-link>
       </div>
     </div>
 
@@ -24,24 +32,37 @@
               <div v-if="activeLesson">
                 <h2>{{ activeLesson.title }}</h2>
 
-                <span class="tag is-warning" v-if="activity.status === 'started'" @click="markAsDone">Started (mark as done)</span>
+                <span
+                  class="tag is-warning"
+                  v-if="activity.status === 'started'"
+                  @click="markAsDone"
+                  >Started (mark as done)</span
+                >
                 <span class="tag is-success" v-else>Done</span>
 
-                <hr>
+                <hr />
                 {{ activeLesson.long_description }}
 
-                <hr/>
+                <hr />
 
                 <div v-if="activeLesson.lesson_type === 'quiz'">
-                  <Quiz :quiz="quiz"/>
+                  <Quiz :quiz="quiz" />
                 </div>
                 <div v-else-if="activeLesson.lesson_type === 'article'">
-                  <CourseComment v-for="comment in comments" :key="comment.id" :comment="comment"/>
+                  <CourseComment
+                    v-for="comment in comments"
+                    :key="comment.id"
+                    :comment="comment"
+                  />
 
-                  <AddComment :active-lesson="activeLesson" :course="course" @submitComment="submitComment"/>
+                  <AddComment
+                    :active-lesson="activeLesson"
+                    :course="course"
+                    @submitComment="submitComment"
+                  />
                 </div>
                 <div v-else-if="activeLesson.lesson_type === 'video'">
-                  <Video :youtube_id="activeLesson.youtube_id"/>
+                  <Video :youtube_id="activeLesson.youtube_id" />
                 </div>
                 <div v-else>
                   {{ course.long_description }}
@@ -70,16 +91,22 @@ import Video from "@/components/Video"
 
 export default {
   name: "Course",
-  components: {Video, Quiz, AddComment, CourseComment},
+  components: { Video, Quiz, AddComment, CourseComment },
   data() {
     return {
-      course: {},
+      course: {
+        created_by: {
+          id: 0,
+          first_name: "",
+          last_name: "",
+        },
+      },
       lessons: {},
       quiz: {},
       activeLesson: null,
       errors: [],
       comments: [],
-      activity: {}
+      activity: {},
     }
   },
   mounted() {
@@ -96,9 +123,8 @@ export default {
         this.lessons = response.data.lessons
 
         document.title = this.course.title
-            ? this.course.title
-            : "Restricted Access" + " | StudyNet"
-
+          ? this.course.title
+          : "Restricted Access" + " | StudyNet"
       } catch (e) {
         console.error(e)
       }
@@ -120,7 +146,10 @@ export default {
     async trackStarted() {
       this.$store.commit("setIsLoading", true)
       try {
-        const response = await ActivityService.trackStarted(this.$route.params.slug, this.activeLesson.slug)
+        const response = await ActivityService.trackStarted(
+          this.$route.params.slug,
+          this.activeLesson.slug
+        )
         this.activity = response.data
       } catch (e) {
         console.log(e)
@@ -130,7 +159,10 @@ export default {
     async markAsDone() {
       this.$store.commit("setIsLoading", true)
       try {
-        const response = await ActivityService.markAsDone(this.$route.params.slug, this.activeLesson.slug)
+        const response = await ActivityService.markAsDone(
+          this.$route.params.slug,
+          this.activeLesson.slug
+        )
         this.activity = response.data
       } catch (e) {
         console.log(e)
@@ -141,8 +173,8 @@ export default {
       this.$store.commit("setIsLoading", true)
       try {
         const response = await CourseService.getQuiz(
-            this.course.slug,
-            this.activeLesson.slug
+          this.course.slug,
+          this.activeLesson.slug
         )
         this.quiz = response.data
       } catch (e) {
@@ -154,8 +186,8 @@ export default {
       this.$store.commit("setIsLoading", true)
       try {
         const response = await CourseService.getComments(
-            this.course.slug,
-            this.activeLesson.slug
+          this.course.slug,
+          this.activeLesson.slug
         )
         this.comments = response.data
       } catch (e) {

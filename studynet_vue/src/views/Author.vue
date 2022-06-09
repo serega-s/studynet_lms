@@ -43,20 +43,9 @@ export default {
     }
   },
   mounted() {
-    this.getCategories()
     this.getCourses()
   },
   methods: {
-    async getCategories() {
-      this.$store.commit("setIsLoading", true)
-      try {
-        const response = await CourseService.getCategories()
-        this.categories = response.data
-      } catch (e) {
-        console.error(e)
-      }
-      this.$store.commit("setIsLoading", false)
-    },
     async getCourses() {
       this.$store.commit("setIsLoading", true)
 
