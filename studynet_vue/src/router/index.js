@@ -5,7 +5,8 @@ import Courses from "../views/Courses.vue"
 import SignUp from "../views/SignUp.vue"
 import LogIn from "../views/LogIn.vue"
 import Course from "../views/Course.vue"
-import MyAccount from '../views/dasboard/MyAccount.vue'
+import MyAccount from "../views/dasboard/MyAccount.vue"
+import Author from "../views/Author.vue"
 
 const routes = [
   {
@@ -37,14 +38,19 @@ const routes = [
     component: MyAccount,
   },
   {
-    path: '/courses',
-    name: 'Courses',
-    component: Courses
+    path: "/courses",
+    name: "Courses",
+    component: Courses,
   },
   {
-    path: '/courses/:slug',
-    name: 'Course',
-    component: Course
+    path: "/courses/:slug",
+    name: "Course",
+    component: Course,
+  },
+  {
+    path: "/authors/:id",
+    name: "Author",
+    component: Author,
   },
 ]
 
