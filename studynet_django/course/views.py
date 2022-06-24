@@ -69,10 +69,11 @@ class CourseListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if category_id := self.request.query_params.get('category_id'):
+        # type: ignore
+        if category_id := self.request.query_params.get('category_id'):  # type: ignore
             queryset = queryset.filter(categories__in=[int(category_id)])
 
-        if limit := self.request.query_params.get('limit'):
+        if limit := self.request.query_params.get('limit'):  # type: ignore
             queryset = queryset[:int(limit)]
 
         return queryset
@@ -98,5 +99,20 @@ class AddCommentAPIView(APIView):
         )
 
         serializer = CommentSerializer(comment)
+
+        return Response(serializer.data)
+
+
+class CreateCourseAPIView(APIView):
+    def post(self, request):
+        course = Course.objects.create(title=request.data.get('title'), short_description=request.data.get(
+            'short_description'), long_description=request.data.get('long_description'), created_by=request.user)
+
+        for id in request.data.get('categories'):
+            course.categories.add(id)
+
+        course.save()
+
+        serializer = CourseDetailSerializer(course)
 
         return Response(serializer.data)
