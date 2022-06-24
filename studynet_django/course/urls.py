@@ -9,6 +9,7 @@ urlpatterns = [
     path('get-categories/', views.CategoryListAPIView.as_view()),
     path('get-author-courses/<int:user_id>/',
          views.AuthorCourseListAPIView.as_view()),
+    path('create/', views.CreateCourseAPIView.as_view()),
     path('<slug:slug>/', views.GetCourseApiView.as_view()),
     path('<slug:course_slug>/<slug:lesson_slug>/get-quiz/',
          views.GetQuizAPIView.as_view()),
