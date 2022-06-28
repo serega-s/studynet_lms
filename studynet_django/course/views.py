@@ -30,7 +30,7 @@ class GetCourseApiView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, slug):
-        course = Course.objects.get(slug=slug)
+        course = Course.objects.filter(status=Course.PUBLISHED).get(slug=slug)
         course_serializer = CourseDetailSerializer(course)
         lesson_serializer = LessonListSerializer(
             course.lessons.all(), many=True)
@@ -47,7 +47,7 @@ class GetCourseApiView(APIView):
 class AuthorCourseListAPIView(APIView):
     def get(self, request, user_id):
         courses = Course.objects.prefetch_related(
-            'categories').select_related('created_by').filter(created_by=user_id).order_by('-created_at')
+            'categories').select_related('created_by').filter(created_by=user_id, status=Course.PUBLISHED).order_by('-created_at')
         user = User.objects.get(pk=user_id)
         courses_serializer = CourseListSerializer(courses, many=True)
         user_serializer = UserSerializer(user)
@@ -62,15 +62,16 @@ class AuthorCourseListAPIView(APIView):
 
 class CourseListAPIView(generics.ListAPIView):
     queryset = Course.objects.prefetch_related(
-        'categories').select_related('created_by').all().order_by('-created_at')
+        'categories').select_related('created_by').filter(status=Course.PUBLISHED).order_by('-created_at')
     permission_classes = [permissions.AllowAny]
     authentication_classes = []
     serializer_class = CourseListSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
         # type: ignore
-        if category_id := self.request.query_params.get('category_id'):  # type: ignore
+        if category_id := self.request.query_params.get('category_id'):
             queryset = queryset.filter(categories__in=[int(category_id)])
 
         if limit := self.request.query_params.get('limit'):  # type: ignore
@@ -91,11 +92,10 @@ class AddCommentAPIView(APIView):
         data = request.data
         name = data['name']
         content = data['content']
-        course = Course.objects.get(slug=course_slug)
         lesson = Lesson.objects.get(slug=lesson_slug)
 
         comment = Comment.objects.create(
-            course=course, lesson=lesson, name=name, content=content, created_by=request.user
+            lesson=lesson, name=name, content=content, created_by=request.user
         )
 
         serializer = CommentSerializer(comment)
@@ -105,13 +105,30 @@ class AddCommentAPIView(APIView):
 
 class CreateCourseAPIView(APIView):
     def post(self, request):
-        course = Course.objects.create(title=request.data.get('title'), short_description=request.data.get(
-            'short_description'), long_description=request.data.get('long_description'), created_by=request.user)
+        status = request.data.get('status'),
+
+        if status == 'published':
+            status = 'draft'
+
+        course = Course.objects.create(
+            title=request.data.get('title'),
+            short_description=request.data.get('short_description'),
+            long_description=request.data.get('long_description'),
+            status=status,
+            created_by=request.user
+        )
 
         for id in request.data.get('categories'):
             course.categories.add(id)
 
-        course.save()
+        lessons_data = request.data.get('lessons')
+
+        for lesson_obj in lessons_data:
+            lesson_obj.update({**lesson_obj, 'status': Lesson.DRAFT})
+
+            lessons = [Lesson(**lesson_obj, course_id=course.id)]
+
+        Lesson.objects.bulk_create(lessons)
 
         serializer = CourseDetailSerializer(course)
 
