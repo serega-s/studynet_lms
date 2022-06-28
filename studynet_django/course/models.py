@@ -35,6 +35,16 @@ class Category(models.Model):
 
 
 class Course(models.Model):
+    DRAFT = 'draft'
+    IN_REVIEW = 'in_review'
+    PUBLISHED = 'published'
+
+    STATUS_CHOICES = [
+        (DRAFT, 'Draft'),
+        (IN_REVIEW, 'In review'),
+        (PUBLISHED, 'Published')
+    ]
+
     categories = ManyToManyField(Category)
     title = models.CharField(max_length=255)
     slug = models.SlugField(blank=True, null=True)
@@ -44,6 +54,8 @@ class Course(models.Model):
         User, on_delete=models.CASCADE, related_name='courses')
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='uploads', blank=True, null=True)
+    status = models.CharField(
+        max_length=25, choices=STATUS_CHOICES, default=DRAFT)
 
     def __str__(self):
         return self.title
@@ -124,9 +136,9 @@ class Lesson(models.Model):
 
 
 class Comment(models.Model):
-    course = models.ForeignKey(
-        Course, related_name='comments', on_delete=models.CASCADE
-    )
+    # course = models.ForeignKey(
+    #     Course, related_name='comments', on_delete=models.CASCADE
+    # )
     lesson = models.ForeignKey(
         Lesson, related_name='comments', on_delete=models.CASCADE
     )
